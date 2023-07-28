@@ -9,7 +9,7 @@
         function prepare_movie() {
             $("#url").val($("#url").val() + "\nPreparing movie... ETA N/A minutes.");
 
-            fetch("http://localhost:5000/movie/prepare/" + $("#movies").val()).then((response) => {
+            fetch("/movie/prepare/" + $("#movies").val()).then((response) => {
                 return response.json()
             }).then((data) => {
                 console.log(data)
@@ -21,7 +21,7 @@
         function prepare_episode() {
             $("#url").val($("#url").val() + "\nPreparing episode... ETA N/A minutes.");
 
-            fetch("http://localhost:5000/tv/prepare/" + $("#episodes").val()).then((response) => {
+            fetch("/tv/prepare/" + $("#episodes").val()).then((response) => {
                 return response.json()
             }).then((data) => {
                 console.log(data)
@@ -31,7 +31,7 @@
         }
 
         function change_tv_show() {
-            fetch("http://localhost:5000/tv/episodes/" + $("#tvshows").val()).then((response) => {
+            fetch("/tv/episodes/" + $("#tvshows").val()).then((response) => {
                 return response.json()
             }).then((data) => {
                 $('#episodes').empty();
@@ -92,7 +92,7 @@ Select TV Show:
 <script>
     $(window).on("load", function () {
 
-        fetch("http://localhost:5000/movie").then((response) => {
+        fetch("/movie").then((response) => {
             return response.json()
         }).then((data) => {
             console.log(data);
@@ -120,7 +120,7 @@ Select TV Show:
             });
         });
 
-        fetch("http://localhost:5000/tv").then((response) => {
+        fetch("/tv").then((response) => {
             return response.json()
         }).then((data) => {
             console.log(data);
@@ -147,12 +147,6 @@ Select TV Show:
 
             });
         });
-
-
-        // $('#pets').append($(document.createElement('option')).prop({
-        //     value: val,
-        //     text: val.charAt(0).toUpperCase() + val.slice(1)
-        // }))
     });
 </script>
 </body>

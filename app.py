@@ -88,10 +88,5 @@ def radarr_stream(tid):
     return send_file(prepared_videos[f"tv_{tid}"])
 
 
-
 if __name__ == "__main__":
-    #prepare_movie(2808)
-    # out, _ = inp.output("-", format="s16le", acodec="pcm_s16le", ac=1, ar=16000) \
-    #     .run(cmd=[ffmpeg_path, "-nostdin"], capture_stdout=True, capture_stderr=True)
-
-    app.run(threaded=True)
+    app.run(host='0.0.0.0', port=8080)
