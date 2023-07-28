@@ -21,6 +21,10 @@ s.headers.update({
 })
 
 
+def get_movies():
+    return s.get(f"http://***REMOVED***:7878/api/v3/movie").json()
+
+
 def return_path_fixed(mid):
     r = s.get(f"http://***REMOVED***:7878/api/v3/movie/{mid}")
     mapped_path = r.json()["movieFile"]["path"]

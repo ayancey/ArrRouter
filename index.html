@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArrRouter</title>
+    <link rel="stylesheet" href="https://unpkg.com/bamboo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        function prepare_movie() {
+            $("#url").val($("#url").val() + "\nPreparing movie... ETA N/A minutes.");
+
+            fetch("http://localhost:5000/movie/prepare/" + $("#movies").val()).then((response) => {
+                return response.json()
+            }).then((data) => {
+                console.log(data)
+                $("#url").val($("#url").val() + "\n" + data.url);
+            });
+
+        }
+
+        function change_tv_show() {
+            fetch("http://localhost:5000/tv/seasons/" + $("#tvshows").val()).then((response) => {
+                return response.json()
+            }).then((data) => {
+                $('#seasons').empty();
+                console.log(data);
+
+                data.forEach(season => {
+                    $('#seasons').append($(document.createElement('option')).prop({
+                        value: season.seasonNumber,
+                        text: `Season ${season.seasonNumber} - ${season.statistics.episodeCount} episodes available`,
+                    }))
+                });
+
+            });
+        }
+
+    </script>
+</head>
+<body>
+Select Movie:
+<select id="movies">
+</select>
+<br><br>
+
+Select TV Show:
+<select id="tvshows" onchange="change_tv_show()">
+</select>
+
+<br><br>
+
+<select id="seasons">
+</select>
+
+<br><br>
+
+<select id="episodes">
+</select>
+
+<br><br>
+
+<button onclick="prepare_movie()">Prepare Movie</button>
+<br><br>
+<textarea id="url">Click prepare movie or prepare TV show</textarea>
+<script>
+    $(window).on("load", function () {
+
+        fetch("http://localhost:5000/movie").then((response) => {
+            return response.json()
+        }).then((data) => {
+            console.log(data);
+
+            // Sort movie titles
+            data.sort((a, b) => {
+                const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+            });
+
+            data.forEach(movie => {
+
+                $('#movies').append($(document.createElement('option')).prop({
+                    value: movie.id,
+                    text: movie.title
+                }))
+            });
+        });
+
+        fetch("http://localhost:5000/tv").then((response) => {
+            return response.json()
+        }).then((data) => {
+            console.log(data);
+
+            // Sort movie titles
+            data.sort((a, b) => {
+                const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+            });
+
+            data.forEach(tv_show => {
+
+                $('#tvshows').append($(document.createElement('option')).prop({
+                    value: tv_show.id,
+                    text: tv_show.title
+                }))
+            });
+        });
+
+
+        // $('#pets').append($(document.createElement('option')).prop({
+        //     value: val,
+        //     text: val.charAt(0).toUpperCase() + val.slice(1)
+        // }))
+    });
+</script>
+</body>
+</html>
