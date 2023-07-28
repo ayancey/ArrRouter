@@ -9,9 +9,9 @@ if os.name == "nt":
     }
 else:
     path_mapping = {
-        "***REMOVED***": "***REMOVED***",
-        "***REMOVED***": "***REMOVED***",
-        "***REMOVED***": "***REMOVED******REMOVED***"
+        # "***REMOVED***": "***REMOVED***",
+        # "***REMOVED***": "***REMOVED***",
+        # "***REMOVED***": "***REMOVED******REMOVED***"
     }
 
 # properly deal with path mapping, boring ahh
