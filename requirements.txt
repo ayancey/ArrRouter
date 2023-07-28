@@ -2,3 +2,4 @@ flask
 requests
 ffmpeg
 flask-cors
+boto3
