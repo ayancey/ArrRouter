@@ -12,9 +12,7 @@ services:
       - ***REMOVED******REMOVED***:***REMOVED***
       - ***REMOVED******REMOVED***:***REMOVED***
       - ***REMOVED******REMOVED***:***REMOVED***
-      # - ***REMOVED******REMOVED***:***REMOVED******REMOVED***
       - ***REMOVED***:***REMOVED***
-      - ***REMOVED******REMOVED***:***REMOVED***
       - ***REMOVED******REMOVED***:***REMOVED***
       - ***REMOVED******REMOVED***:***REMOVED***
     restart: unless-stopped
