@@ -1,4 +1,4 @@
-from flask import Flask, send_file, Response, jsonify
+from flask import Flask, send_file, render_template, jsonify
 import radarr
 import sonarr
 import ffmpeg
@@ -91,6 +91,11 @@ def tv_show_episodes(sid):
 @app.route("/tv/<tid>")
 def radarr_stream(tid):
     return send_file(prepared_videos[f"tv_{tid}"])
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
