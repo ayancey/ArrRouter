@@ -7,6 +7,10 @@ COPY ./requirements.txt /app/requirements.txt
 # switch working directory
 WORKDIR /app
 
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache ffmpeg
+
 # install the dependencies and packages in the requirements file
 RUN pip install -r requirements.txt
 
