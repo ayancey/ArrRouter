@@ -7,6 +7,7 @@ import boto3
 import uuid
 import time
 from flask_cors import CORS, cross_origin
+import os
 
 
 session = boto3.Session(
@@ -60,6 +61,7 @@ def movie_prepare(mid):
     f_name = radarr.return_path_fixed(mid)
     trans_f_name = transcode_content(f_name)
     s3_url = upload_content(trans_f_name)
+    os.remove(trans_f_name)
     return jsonify({"success": True, "url": s3_url})
 
 
@@ -68,6 +70,7 @@ def tv_prepare(eid):
     f_name = sonarr.return_path_fixed(eid)
     trans_f_name = transcode_content(f_name)
     s3_url = upload_content(trans_f_name)
+    os.remove(trans_f_name)
     return jsonify({"success": True, "url": s3_url})
 
 
