@@ -26,7 +26,7 @@ def transcode_content(f_name):
     tf = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
     tf.close()
 
-    out = inp.output(tf.name, acodec='copy', vcodec='copy', movflags="frag_keyframe+empty_moov", format="mp4")
+    out = inp.output(tf.name, acodec='copy', vcodec='copy', scodec='copy', movflags="frag_keyframe+empty_moov", ac=2, format="mp4")
 
     out.run(overwrite_output=True)
 
