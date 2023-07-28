@@ -18,20 +18,46 @@
 
         }
 
-        function change_tv_show() {
-            fetch("http://localhost:5000/tv/seasons/" + $("#tvshows").val()).then((response) => {
+        function prepare_episode() {
+            $("#url").val($("#url").val() + "\nPreparing episode... ETA N/A minutes.");
+
+            fetch("http://localhost:5000/tv/prepare/" + $("#episodes").val()).then((response) => {
                 return response.json()
             }).then((data) => {
-                $('#seasons').empty();
+                console.log(data)
+                $("#url").val($("#url").val() + "\n" + data.url);
+            });
+
+        }
+
+        function change_tv_show() {
+            fetch("http://localhost:5000/tv/episodes/" + $("#tvshows").val()).then((response) => {
+                return response.json()
+            }).then((data) => {
+                $('#episodes').empty();
                 console.log(data);
 
-                data.forEach(season => {
-                    $('#seasons').append($(document.createElement('option')).prop({
-                        value: season.seasonNumber,
-                        text: `Season ${season.seasonNumber} - ${season.statistics.episodeCount} episodes available`,
-                    }))
+                // Sort movie titles
+                data.sort((a, b) => {
+                    const nameA = a.seasonNumber + " " + a.episodeNumber; // ignore upper and lowercase
+                    const nameB = b.seasonNumber + " " + b.episodeNumber; // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
                 });
 
+
+                data.forEach(episode => {
+                    if (episode.hasFile === true) {
+                        $('#episodes').append($(document.createElement('option')).prop({
+                            value: episode.id,
+                            text: `S${episode.seasonNumber}E${episode.episodeNumber} - ${episode.title}`,
+                        }))
+                    }
+                });
             });
         }
 
@@ -43,23 +69,24 @@ Select Movie:
 </select>
 <br><br>
 
+<button onclick="prepare_movie()">Prepare Movie</button>
+
+<br><br>
+
 Select TV Show:
 <select id="tvshows" onchange="change_tv_show()">
 </select>
 
 <br><br>
 
-<select id="seasons">
-</select>
-
-<br><br>
 
 <select id="episodes">
 </select>
 
 <br><br>
 
-<button onclick="prepare_movie()">Prepare Movie</button>
+<button onclick="prepare_episode()">Prepare Episode</button>
+
 <br><br>
 <textarea id="url">Click prepare movie or prepare TV show</textarea>
 <script>
@@ -83,11 +110,13 @@ Select TV Show:
             });
 
             data.forEach(movie => {
+                if (movie.hasFile === true) {
+                    $('#movies').append($(document.createElement('option')).prop({
+                        value: movie.id,
+                        text: movie.title
+                    }))
+                }
 
-                $('#movies').append($(document.createElement('option')).prop({
-                    value: movie.id,
-                    text: movie.title
-                }))
             });
         });
 
@@ -109,11 +138,13 @@ Select TV Show:
             });
 
             data.forEach(tv_show => {
+                if (tv_show.statistics.episodeFileCount > 0) {
+                    $('#tvshows').append($(document.createElement('option')).prop({
+                        value: tv_show.id,
+                        text: tv_show.title
+                    }))
+                }
 
-                $('#tvshows').append($(document.createElement('option')).prop({
-                    value: tv_show.id,
-                    text: tv_show.title
-                }))
             });
         });
 

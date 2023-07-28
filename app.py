@@ -49,9 +49,18 @@ def upload_content(f_name):
 def movies():
     return jsonify(radarr.get_movies())
 
+
 @app.route("/movie/prepare/<mid>")
 def movie_prepare(mid):
     f_name = radarr.return_path_fixed(mid)
+    trans_f_name = transcode_content(f_name)
+    s3_url = upload_content(trans_f_name)
+    return jsonify({"success": True, "url": s3_url})
+
+
+@app.route("/tv/prepare/<eid>")
+def tv_prepare(eid):
+    f_name = sonarr.return_path_fixed(eid)
     trans_f_name = transcode_content(f_name)
     s3_url = upload_content(trans_f_name)
     return jsonify({"success": True, "url": s3_url})
@@ -71,11 +80,7 @@ def tv_show_episodes(sid):
     return jsonify(sonarr.get_episodes(sid))
 
 
-@app.route("/tv/prepare/<mid>")
-def tv_prepare(tid):
-    raise NotImplementedError
-    # f_name = sonarr.return_path_fixed(tid)
-    # return jsonify({"success": True, "path": transcode_content(f_name)})
+
 
 
 @app.route("/tv/<tid>")

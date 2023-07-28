@@ -5,9 +5,10 @@ import os
 
 if os.name == "nt":
     path_mapping = {
-        "***REMOVED***": "***REMOVED***"
+        "***REMOVED***/TV Shows": "***REMOVED***"
     }
 else:
+    # TODO: fix this
     path_mapping = {
         "***REMOVED***": "***REMOVED***"
     }
@@ -26,8 +27,18 @@ def get_tv_shows():
 
 
 def get_episodes(sid):
-    return s.get(f"http://***REMOVED***:42002/api/v3/episodefile?seriesId={sid}").json()
+    return s.get(f"http://***REMOVED***:42002/api/v3/episode?seriesId={sid}").json()
 
 
 def get_seasons(sid):
     return s.get(f"http://***REMOVED***:42002/api/v3/series/{sid}").json()["seasons"]
+
+
+def return_path_fixed(eid):
+    r = s.get(f"http://***REMOVED***:42002/api/v3/episode/{eid}")
+    mapped_path = r.json()["episodeFile"]["path"]
+
+    for path in path_mapping:
+        mapped_path = mapped_path.replace(path, path_mapping[path])
+
+    return mapped_path
