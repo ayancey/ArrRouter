@@ -8,9 +8,10 @@ if os.name == "nt":
         "***REMOVED***/TV Shows": "***REMOVED***"
     }
 else:
-    # TODO: fix this
     path_mapping = {
-        "***REMOVED***": "***REMOVED***"
+        "***REMOVED***": "***REMOVED***",
+        "***REMOVED***": "***REMOVED***",
+        "***REMOVED***": "***REMOVED******REMOVED***"
     }
 
 # properly deal with path mapping, boring ahh
